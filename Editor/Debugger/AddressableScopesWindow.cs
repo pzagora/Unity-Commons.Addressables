@@ -13,7 +13,7 @@ namespace Commons.Addressables.Editor
     /// </summary>
     internal sealed class AddressableScopesWindow : EditorWindow
     {
-        private const string MENU_PATH = "Window/Analysis/Addressable Scopes";
+        private const string MENU_PATH = "Tools/Commons/Addressable Scopes";
         private const string TITLE = "Addressable Scopes";
         private const string PROFILER_MENU_PATH = "Window/Analysis/Profiler";
         private const string CAPTURE_STACKS_PREF = "Commons.Addressables.CaptureStackTraces";

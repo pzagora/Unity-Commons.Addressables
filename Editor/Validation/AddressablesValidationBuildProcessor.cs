@@ -9,7 +9,7 @@ namespace Commons.Addressables.Editor
         private const int CALLBACK_ORDER = -100;
         private const string FAILED_FORMAT =
             "Addressables validation found {0} error(s) - see the Console. To build anyway, turn off " +
-            "'Fail Build On Errors' in Project Settings > Commons Addressables.";
+            "'Fail Build On Errors' in Project Settings > zagora.dev > Commons Addressables.";
 
         public int callbackOrder => CALLBACK_ORDER;
 

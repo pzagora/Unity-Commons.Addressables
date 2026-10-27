@@ -51,7 +51,7 @@ await AsyncPipeline
 
 ## Editor tooling
 
-Configured in **Project Settings ▸ Commons Addressables**.
+Configured in **Project Settings ▸ zagora.dev ▸ Commons Addressables** (shortcut: **Tools ▸ Commons ▸ Addressables Settings**).
 
 - **Folder convention.** Any asset under `<any folder>/Addressables/<Group>/…` becomes addressable in group `<Group>`, with address `<Group>/<path below the group>` (no extension) and label `<Group>`. The folder can sit anywhere (`Art/Addressables/UI/…` works); the innermost `Addressables` segment wins. Scripts and anything under `Editor` or `Resources` are skipped. New groups copy the default group's schemas.
 - **Generated keys.** Set a keys path to generate `const string` addresses and labels (`AddressableKeys.UI.Icons.Coin`, `AddressableKeys.Labels.UI`). Put the file inside the assembly that uses it; a file outside any `.asmdef` lands in Assembly-CSharp, which asmdef code can't reference.
@@ -59,6 +59,6 @@ Configured in **Project Settings ▸ Commons Addressables**.
 
 ## Addressable Scopes debugger
 
-**Window ▸ Analysis ▸ Addressable Scopes** lists every live `AssetScope`: owner, handle count, age, and each handle's key, type, status and whether it is an instance. Turn on **Capture Load Stacks** to record where each handle was loaded. **Suspected Leaks Only** shows scopes whose owner was destroyed without disposing them, and **By Key** aggregates handles across scopes. Scopes still listed after leaving Play mode were never disposed.
+**Tools ▸ Commons ▸ Addressable Scopes** lists every live `AssetScope`: owner, handle count, age, and each handle's key, type, status and whether it is an instance. Turn on **Capture Load Stacks** to record where each handle was loaded. **Suspected Leaks Only** shows scopes whose owner was destroyed without disposing them, and **By Key** aggregates handles across scopes. Scopes still listed after leaving Play mode were never disposed.
 
 Unity's own Addressables Profiler module (Window ▸ Analysis ▸ Profiler) shows bundles and reference counts; this window adds *who* holds them.

@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Commons.Addressables.Editor
 {
-    /// <summary>Project-wide Commons.Addressables editor settings (Project Settings ▸ Commons Addressables).</summary>
+    /// <summary>Project-wide Commons.Addressables editor settings (Project Settings ▸ zagora.dev ▸ Commons Addressables).</summary>
     [FilePath(SETTINGS_PATH, FilePathAttribute.Location.ProjectFolder)]
     internal sealed class AddressablesConventionSettings : ScriptableSingleton<AddressablesConventionSettings>
     {

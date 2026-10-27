@@ -7,8 +7,9 @@ namespace Commons.Addressables.Editor
     internal static class AddressablesConventionSettingsProvider
     {
         private const string LOG_SOURCE = "Addressables";
-        private const string SETTINGS_PATH = "Project/Commons Addressables";
+        private const string SETTINGS_PATH = "Project/zagora.dev/Commons Addressables";
         private const string SETTINGS_LABEL = "Commons Addressables";
+        private const string MENU_PATH = "Tools/Commons/Addressables Settings";
 
         private const string CONVENTIONS_HEADER = "Folder convention";
         private const string KEYS_HEADER = "Generated keys";
@@ -51,6 +52,10 @@ namespace Commons.Addressables.Editor
                 guiHandler = _ => Draw(),
                 keywords = new HashSet<string>(Keywords)
             };
+
+        [MenuItem(MENU_PATH)]
+        private static void Open()
+            => SettingsService.OpenProjectSettings(SETTINGS_PATH);
 
         private static void Draw()
         {

@@ -11,7 +11,7 @@ namespace Commons.Addressables.Editor
     /// <summary>
     /// Generates <c>const string</c> keys for every address and label: one nested class per group (and per address
     /// path segment), plus a <c>Labels</c> class. Regenerates whenever the Addressables settings change, writing the file
-    /// only when its contents differ. Disabled until a keys path is set in Project Settings ▸ Commons Addressables.
+    /// only when its contents differ. Disabled until a keys path is set in Project Settings ▸ zagora.dev ▸ Commons Addressables.
     /// </summary>
     [InitializeOnLoad]
     internal static class AddressableKeysGenerator

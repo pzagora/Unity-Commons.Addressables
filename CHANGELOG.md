@@ -2,6 +2,13 @@
 
 All notable changes to this package are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this package adheres to Semantic Versioning.
 
+## [1.0.1]
+
+### Changed
+- The Addressable Scopes debugger moved to **Tools ▸ Commons ▸ Addressable Scopes** (was Window ▸ Analysis), matching the other packages' `Tools/<Package>` menus.
+- The Project Settings page moved under a shared **zagora.dev** group: **Project Settings ▸ zagora.dev ▸ Commons Addressables**.
+- **Tools ▸ Commons ▸ Addressables Settings** opens the Project Settings page.
+
 ## [1.0.0]
 
 ### Added
