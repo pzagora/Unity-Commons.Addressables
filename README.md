@@ -6,10 +6,16 @@ Its own assemblies (`Commons.Addressables`, editor tooling in `Commons.Addressab
 
 ## Installation
 
-Add to `Packages/manifest.json` (its dependencies are declared in `package.json`):
+Install from the zagora.dev UPM registry — add the scoped registry (and OpenUPM, for UniTask) to `Packages/manifest.json`, then the package; its dependencies install automatically:
 
 ```json
-"com.zagoradev.unity.commons.addressables": "https://github.com/pzagora/Unity-Commons.Addressables.git"
+"scopedRegistries": [
+    { "name": "zagora.dev", "url": "https://upm.zagora.dev", "scopes": [ "com.zagoradev" ] },
+    { "name": "OpenUPM", "url": "https://package.openupm.com", "scopes": [ "com.cysharp" ] }
+],
+"dependencies": {
+  "com.zagoradev.unity.commons.addressables": "1.0.3"
+}
 ```
 
 Requires Unity `6000.0+`.
