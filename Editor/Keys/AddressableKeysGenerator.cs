@@ -84,7 +84,7 @@ namespace Commons.Addressables.Editor
 
             foreach (var group in settings.groups)
             {
-                if (group == null || group.HasSchema<PlayerDataGroupSchema>())
+                if (group == null || group.entries.Count == 0 || group.HasSchema<PlayerDataGroupSchema>())
                     continue;
 
                 var groupNode = root.Child(group.Name);

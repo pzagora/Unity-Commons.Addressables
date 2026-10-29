@@ -2,6 +2,11 @@
 
 All notable changes to this package are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this package adheres to Semantic Versioning.
 
+## [1.1.2]
+
+### Fixed
+- Generated keys no longer contain empty classes for groups without entries (e.g. the read-only Built In Data group).
+
 ## [1.1.1]
 
 ### Fixed
