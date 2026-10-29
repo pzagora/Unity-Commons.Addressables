@@ -31,7 +31,10 @@ namespace Commons.Addressables
 
         public ContentEnvironment Configured => Application.isEditor
             ? editor
-            : Debug.isDebugBuild ? developmentBuilds : releaseBuilds;
+            : EnvironmentFor(Debug.isDebugBuild);
+
+        public ContentEnvironment EnvironmentFor(bool developmentBuild)
+            => developmentBuild ? developmentBuilds : releaseBuilds;
 
         public string UrlFor(ContentEnvironment environment) => environment switch
         {

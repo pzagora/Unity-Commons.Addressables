@@ -102,7 +102,7 @@ Configured in **Project Settings ▸ zagora.dev ▸ Commons Addressables** (shor
 
 - **Folder convention.** Any asset under `<any folder>/Addressables/<Group>/…` becomes addressable in group `<Group>`, with address `<Group>/<path below the group>` (no extension) and label `<Group>`. The folder can sit anywhere (`Art/Addressables/UI/…` works); the innermost `Addressables` segment wins. Scripts and anything under `Editor` or `Resources` are skipped. New groups copy the default group's schemas.
 - **Generated keys.** Set a keys path (a `.cs` file, or a folder to write `<Keys Class>.cs` into) to generate `const string` addresses and labels (`AddressableKeys.UI.Icons.Coin`, `AddressableKeys.Labels.UI`). Put the file inside the assembly that uses it; a file outside any `.asmdef` lands in Assembly-CSharp, which asmdef code can't reference.
-- **Build validation.** Runs before every player build: missing assets and Resources duplicates are errors (they can fail the build); convention drift, ambiguous addresses, unmarked convention assets and optional duplicate bundle dependencies are warnings.
+- **Build validation.** Runs before every player build: missing assets and Resources duplicates are errors (they can fail the build); convention drift, ambiguous addresses, unmarked convention assets and optional duplicate bundle dependencies are warnings. Pass `-checkDuplicateDependencies` on the command line (e.g. on CI) to run the duplicate check without turning it on in the settings. When remote content loads through Content Delivery, a player build also fails without a Content Delivery settings asset, without a URL for the environment that build uses, or (Remote Only) with Addressables settings that don't match Content Delivery.
 
 ## Addressable Scopes debugger
 

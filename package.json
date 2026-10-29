@@ -1,7 +1,7 @@
 {
   "name": "com.zagoradev.unity.commons.addressables",
   "displayName": "Unity Commons Addressables (zagora.dev)",
-  "version": "1.1.2",
+  "version": "1.2.0",
   "unity": "6000.0",
   "description": "Addressables workflow for Unity Commons: AssetScope (lifetime-owned handles), content update/download steps for AsyncPipeline, folder-convention auto-addressing, generated key constants, build-time validation, per-environment content delivery URLs and a live Addressable Scopes debugger for finding leaks.",
   "documentationUrl": "https://github.com/pzagora/Unity-Commons.Addressables/blob/main/README.md",

@@ -2,6 +2,17 @@
 
 All notable changes to this package are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this package adheres to Semantic Versioning.
 
+## [1.2.0]
+
+### Added
+- Player builds fail when remote content loads through Content Delivery but couldn't load: no Content Delivery
+  settings asset, an empty URL for the environment the build uses (development or release; Local falls back to
+  Development), or, with Remote Only, Addressables settings that don't match Content Delivery. Previously these only
+  logged an error on the device.
+- `-checkDuplicateDependencies` on the command line runs the duplicate bundle dependency check during build validation
+  without turning it on in the settings (e.g. on CI).
+- `ContentDeliverySettings.EnvironmentFor(bool developmentBuild)`.
+
 ## [1.1.2]
 
 ### Fixed

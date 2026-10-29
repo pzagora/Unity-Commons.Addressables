@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
@@ -19,6 +20,7 @@ namespace Commons.Addressables.Editor
     {
         private const string LOG_SOURCE = "Addressables";
         private const string RESOURCES_SEGMENT = "/Resources/";
+        private const string CHECK_DUPLICATES_ARGUMENT = "-checkDuplicateDependencies";
 
         private const string MISSING_ASSET_FORMAT = "Entry '{0}' in group '{1}' points to a missing asset (GUID {2}).";
         private const string IN_RESOURCES_FORMAT = "'{0}' is addressable and inside a Resources folder: it ships twice. Move it out of Resources.";
@@ -98,7 +100,7 @@ namespace Commons.Addressables.Editor
             if (config.ApplyConventions)
                 warnings += ReportUnmarkedConventionAssets(settings, config.ConventionFolder);
 
-            if (config.CheckDuplicateDependencies)
+            if (config.CheckDuplicateDependencies || Array.IndexOf(Environment.GetCommandLineArgs(), CHECK_DUPLICATES_ARGUMENT) >= 0)
                 warnings += ReportDuplicateDependencies(settings);
 
             if (config.RemoteOnly)

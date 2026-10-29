@@ -50,6 +50,21 @@ namespace Commons.Addressables.Editor
             }
         }
 
+        /// <summary>
+        /// Whether remote content loads through <see cref="ContentDelivery.RemoteUrl"/>: the active profile's remote load
+        /// path uses it and a group or the remote catalog loads from that path.
+        /// </summary>
+        public static bool InUse
+        {
+            get
+            {
+                var loadPath = LoadPathVariable();
+                return loadPath != null
+                    && Profiles.GetValueByName(Settings.activeProfileId, loadPath) == ContentDelivery.REMOTE_LOAD_PATH
+                    && (Settings.BuildRemoteCatalog || RemoteSchemas(loadPath).Any());
+            }
+        }
+
         public static int Apply()
         {
             var loadPath = LoadPathVariable() ?? Create(AddressableAssetSettings.kRemoteLoadPath, ContentDelivery.REMOTE_LOAD_PATH);
