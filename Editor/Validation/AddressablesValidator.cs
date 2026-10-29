@@ -11,8 +11,9 @@ namespace Commons.Addressables.Editor
     /// <summary>
     /// Checks the Addressables setup for problems that otherwise surface as bloated or broken builds: entries pointing
     /// at missing assets, assets that are both addressable and in a <c>Resources</c> folder, ambiguous addresses, assets
-    /// that drifted from the folder convention, and (optionally) duplicated bundle dependencies. Logs every issue with
-    /// the asset as context and returns the error count.
+    /// that drifted from the folder convention, (optionally) duplicated bundle dependencies and, with Content Delivery
+    /// set to Remote Only, groups that would build into the app. Logs every issue with the asset as context and returns
+    /// the error count.
     /// </summary>
     internal static class AddressablesValidator
     {
@@ -25,6 +26,12 @@ namespace Commons.Addressables.Editor
         private const string CONVENTION_DRIFT_FORMAT = "'{0}' should be in group '{1}' with address '{2}' (folder convention). Run Apply Conventions.";
         private const string NOT_ADDRESSABLE_FORMAT = "'{0}' is under a convention folder but isn't addressable. Run Apply Conventions.";
         private const string DUPLICATE_DEPENDENCY_FORMAT = "Duplicate bundle dependency: {0}";
+        private const string LOCAL_GROUP_FORMAT =
+            "Group '{0}' builds its bundles into the app, but Content Delivery is Remote Only. Use Make All Groups Remote " +
+            "(Project Settings ▸ zagora.dev ▸ Commons Addressables).";
+        private const string SETUP_OUTDATED =
+            "The Addressables settings don't match Content Delivery (remote load path, remote catalog or catalog name). " +
+            "Use Apply Content Delivery Setup (Project Settings ▸ zagora.dev ▸ Commons Addressables).";
         private const string SUMMARY_FORMAT = "Validation finished: {0} error(s), {1} warning(s).";
         private const string ENTRY_LIST_SEPARATOR = ", ";
 
@@ -93,6 +100,21 @@ namespace Commons.Addressables.Editor
 
             if (config.CheckDuplicateDependencies)
                 warnings += ReportDuplicateDependencies(settings);
+
+            if (config.RemoteOnly)
+            {
+                foreach (var group in ContentDeliverySetup.LocalGroups())
+                {
+                    CommonsLog.Error(LOG_SOURCE, string.Format(LOCAL_GROUP_FORMAT, group.Name), group);
+                    errors++;
+                }
+
+                if (!ContentDeliverySetup.IsApplied)
+                {
+                    CommonsLog.Warning(LOG_SOURCE, SETUP_OUTDATED);
+                    warnings++;
+                }
+            }
 
             var summary = string.Format(SUMMARY_FORMAT, errors, warnings);
             if (errors > 0)

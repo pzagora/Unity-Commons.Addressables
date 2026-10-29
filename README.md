@@ -55,6 +55,47 @@ await AsyncPipeline
 
 `AddressablesContent` exposes the same operations directly, plus `GetDownloadSizeAsync` for "download N MB?" prompts.
 
+## Content delivery
+
+Remote groups load from a base URL picked at runtime, so the same content build can be served from several places:
+
+| Environment | Base URL | Used by default by |
+|---|---|---|
+| `Live` | set per project, e.g. `https://cdn.example.com/MyGame/addressables/live` | release builds; only a release from Development publishes here |
+| `Development` | set per project, e.g. `https://cdn.example.com/MyGame/addressables/development` | development builds; builds upload here |
+| `Local` | the project's `ServerData` folder (Editor), or a configured URL such as a LAN server | the Editor |
+
+1. In **Project Settings ▸ zagora.dev ▸ Commons Addressables ▸ Content delivery**, create a settings asset and set this
+   project's Live and Development URLs (the package ships none; the page warns while they're empty). It also sets which
+   environment the Editor, development builds and release builds use. The asset can live anywhere: it ships as a
+   Preloaded Asset.
+2. Choose how content ships:
+   - **Remote Only**: every group builds to and loads from the remote paths, so the app carries no content: it downloads
+     what it needs from the CDN, keeps it in the device cache and downloads a bundle again only when it changed there.
+     Validation fails a build that would put content into the app; **Make All Groups Remote** fixes existing groups.
+     A device needs a connection the first time it loads content. Groups listed under **Groups Allowed In App** may
+     stay local (they can't be updated without a new build).
+   - **Versioned Catalogs**: off (the default), the remote catalog is `catalog_content` and every release overwrites it,
+     so all installed builds get the newest content. On, it's `catalog_<Catalog Version>`: raise the version when content
+     starts needing code that older builds lack, and those builds keep loading the last content of their version.
+3. Click **Apply Content Delivery Setup**. It sets every profile's `Remote.LoadPath` (`RemoteLoadPath` in projects
+   created before Addressables 1.19) to `{Commons.Addressables.ContentDelivery.RemoteUrl}/[BuildTarget]`, which
+   Addressables evaluates at runtime, sets the catalog name (Player Version Override), turns the remote catalog on with
+   Remote Only and points it at the remote paths, and gives remote groups a 30 s request timeout and 2 retries where
+   none is set. `Remote.BuildPath` stays `ServerData/[BuildTarget]`, the folder that gets uploaded. The page and validation warn when the Addressables settings drift from this.
+
+A missing URL logs one error when remote content first loads from that environment. A failed catalog check (offline,
+CDN unreachable) is a warning: the game keeps the catalogs it has.
+
+To test against another environment, e.g. from a debug menu, switch before Addressables initialises:
+
+```csharp
+ContentDelivery.Override(ContentEnvironment.Live);
+```
+
+In the Editor, Local content is read in Play mode with the **Use Existing Build** play mode script, after building the
+content (**Window ▸ Asset Management ▸ Addressables ▸ Groups ▸ Build**).
+
 ## Editor tooling
 
 Configured in **Project Settings ▸ zagora.dev ▸ Commons Addressables** (shortcut: **Tools ▸ Commons ▸ Addressables Settings**).

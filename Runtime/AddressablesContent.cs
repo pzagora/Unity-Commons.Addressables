@@ -15,6 +15,9 @@ namespace Commons.Addressables
     public static class AddressablesContent
     {
         private const float COMPLETE_PROGRESS = 1f;
+        private const string LOG_SOURCE = "Addressables";
+        private const string CHECK_FAILED_FORMAT = "Couldn't check for catalog updates; continuing with the current catalogs. {0}";
+        private const string UPDATE_FAILED_FORMAT = "Couldn't update the catalogs; continuing with the current catalogs. {0}";
 
         public static async UniTask InitializeAsync(IProgress<float> progress = null, CancellationToken ct = default)
         {
@@ -29,7 +32,11 @@ namespace Commons.Addressables
             }
         }
 
-        /// <summary>Checks for and applies remote catalog updates. Returns <c>true</c> when any catalog was updated.</summary>
+        /// <summary>
+        /// Checks for and applies remote catalog updates. Returns <c>true</c> when any catalog was updated. A failed check
+        /// or update (offline, CDN unreachable) is logged as a warning and returns <c>false</c>, so the game keeps running
+        /// on the catalogs it already has instead of failing to boot; only cancellation throws.
+        /// </summary>
         public static async UniTask<bool> UpdateCatalogsAsync(IProgress<float> progress = null, CancellationToken ct = default)
         {
             List<string> catalogs;
@@ -39,6 +46,12 @@ namespace Commons.Addressables
             {
                 await AsyncOperationHandleAwaiter.WaitAsync(check, null, ct);
                 catalogs = check.Result;
+            }
+            catch (Exception exception) when (exception is not OperationCanceledException)
+            {
+                CommonsLog.Warning(LOG_SOURCE, string.Format(CHECK_FAILED_FORMAT, exception.InnerException?.Message ?? exception.Message));
+                progress?.Report(COMPLETE_PROGRESS);
+                return false;
             }
             finally
             {
@@ -55,6 +68,12 @@ namespace Commons.Addressables
             try
             {
                 await AsyncOperationHandleAwaiter.WaitAsync(update, progress, ct);
+            }
+            catch (Exception exception) when (exception is not OperationCanceledException)
+            {
+                CommonsLog.Warning(LOG_SOURCE, string.Format(UPDATE_FAILED_FORMAT, exception.InnerException?.Message ?? exception.Message));
+                progress?.Report(COMPLETE_PROGRESS);
+                return false;
             }
             finally
             {

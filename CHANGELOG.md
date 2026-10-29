@@ -2,6 +2,31 @@
 
 All notable changes to this package are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this package adheres to Semantic Versioning.
 
+## [1.1.0]
+
+### Added
+- **Content delivery**: remote groups load from a base URL picked at runtime per `ContentEnvironment` (`Live`,
+  `Development`, `Local`). `ContentDeliverySettings` holds the URLs and which environment the Editor, development builds
+  and release builds use. The Live and Development URLs are set per project (none ship with the package; a missing one
+  logs an error once); Local defaults to the project's `ServerData` folder in the Editor. `ContentDelivery.Override` switches environments before Addressables
+  initialises.
+- Project Settings ▸ zagora.dev ▸ Commons Addressables ▸ **Content delivery**: pick or create the settings asset (shipped
+  as a Preloaded Asset), then **Apply Content Delivery Setup**: every profile's `Remote.LoadPath` (or the pre-1.19
+  `RemoteLoadPath`) becomes `{Commons.Addressables.ContentDelivery.RemoteUrl}/[BuildTarget]`, the remote catalog builds
+  to and loads from the remote paths, and the catalog name is set.
+- **Remote Only**: keeps every group on the CDN (nothing built into the app); **Make All Groups Remote** converts
+  existing groups, and validation fails builds with a local group.
+- **Versioned Catalogs**: off, the catalog is `catalog_content` and each release overwrites it; on, it's
+  `catalog_<Catalog Version>`, so older builds keep the content of their version.
+- **Groups Allowed In App** (with Remote Only): groups validation lets build into the app.
+- Apply Content Delivery Setup and Make All Groups Remote give remote groups a 30 s request timeout and 2 retries
+  where none is set, so a stalled download can't hang loading forever.
+
+### Changed
+- `AddressablesContent.UpdateCatalogsAsync` (and `AddressablesSteps.UpdateCatalogs`) no longer throws when the catalog
+  check or update fails (offline, CDN unreachable): it logs a warning and returns `false`, so the game boots on the
+  catalogs it already has. Cancellation still throws.
+
 ## [1.0.5]
 
 ### Changed
