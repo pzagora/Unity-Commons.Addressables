@@ -2,6 +2,11 @@
 
 All notable changes to this package are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this package adheres to Semantic Versioning.
 
+## [1.3.0]
+
+### Changed
+- Requires Commons 3.0.0: the Editor assembly references Commons' new `Commons.Editor` assembly.
+
 ## [1.2.0]
 
 ### Added

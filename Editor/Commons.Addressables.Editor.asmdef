@@ -4,6 +4,7 @@
     "references": [
         "Commons.Addressables",
         "GUID:5a53845392ef28147a6795b3b3ada979",
+        "Commons.Editor",
         "GUID:9e24947de15b9834991c9d8411ea37cf",
         "GUID:84651a3751eca9349aac36a66bba901b",
         "GUID:69448af7b92c7f342b298e06a37122aa",
