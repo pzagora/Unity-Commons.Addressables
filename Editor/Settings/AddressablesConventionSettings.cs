@@ -14,6 +14,7 @@ namespace Commons.Addressables.Editor
         private const string DEFAULT_CONVENTION_FOLDER = "Addressables";
         private const string DEFAULT_KEYS_CLASS = "AddressableKeys";
         private const int FIRST_CATALOG_VERSION = 1;
+        private const string SCRIPT_EXTENSION = ".cs";
 
         [SerializeField] private bool applyConventions = true;
         [SerializeField] private string conventionFolder = DEFAULT_CONVENTION_FOLDER;
@@ -39,7 +40,17 @@ namespace Commons.Addressables.Editor
         public bool ValidateOnBuild => validateOnBuild;
         public bool CheckDuplicateDependencies => checkDuplicateDependencies;
         public bool FailBuildOnErrors => failBuildOnErrors;
-        public string KeysPath => keysPath?.Trim() ?? string.Empty;
+        public string KeysPath
+        {
+            get
+            {
+                var path = keysPath?.Trim().TrimEnd('/', '\\') ?? string.Empty;
+                return path.Length == 0 || path.EndsWith(SCRIPT_EXTENSION, StringComparison.OrdinalIgnoreCase)
+                    ? path
+                    : $"{path}/{KeysClass}{SCRIPT_EXTENSION}";
+            }
+        }
+
         public string KeysNamespace => keysNamespace?.Trim() ?? string.Empty;
         public bool CanGenerateKeys => generateKeys && !string.IsNullOrEmpty(KeysPath);
 

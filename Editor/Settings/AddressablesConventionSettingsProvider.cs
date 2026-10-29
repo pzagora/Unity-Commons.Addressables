@@ -23,7 +23,8 @@ namespace Commons.Addressables.Editor
             "scripts and anything under Editor or Resources folders are skipped.";
 
         private const string KEYS_HELP =
-            "Generates const string keys for every address and label. Put the file inside the assembly that uses the " +
+            "Generates const string keys for every address and label. The path is a .cs file, or a folder to write " +
+            "<Keys Class>.cs into. Put the file inside the assembly that uses the " +
             "keys (e.g. a folder covered by your game's .asmdef) - a file outside any .asmdef compiles into " +
             "Assembly-CSharp, which asmdef code can't reference. Leave the path empty to disable.";
 
