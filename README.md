@@ -14,7 +14,7 @@ Install from the zagora.dev UPM registry — add the scoped registry (and OpenUP
     { "name": "OpenUPM", "url": "https://package.openupm.com", "scopes": [ "com.cysharp" ] }
 ],
 "dependencies": {
-  "com.zagoradev.unity.commons.addressables": "1.0.5"
+  "com.zagoradev.unity.commons.addressables": "1.3.1"
 }
 ```
 
@@ -109,3 +109,13 @@ Configured in **Project Settings ▸ zagora.dev ▸ Commons Addressables** (shor
 **Tools ▸ Commons ▸ Addressable Scopes** lists every live `AssetScope`: owner, handle count, age, and each handle's key, type, status and whether it is an instance. Turn on **Capture Load Stacks** to record where each handle was loaded. **Suspected Leaks Only** shows scopes whose owner was destroyed without disposing them, and **By Key** aggregates handles across scopes. Scopes still listed after leaving Play mode were never disposed.
 
 Unity's own Addressables Profiler module (Window ▸ Analysis ▸ Profiler) shows bundles and reference counts; this window adds *who* holds them.
+
+## Tests
+
+Package-owned EditMode tests under `Tests/Editor` cover convention-path parsing and exclusions, deterministic generated
+C# keys (safe identifiers, collisions and escaping), and content-delivery environment/URL selection. Add
+`com.zagoradev.unity.commons.addressables` to the project's `testables` array, then run them with Unity Test Framework:
+
+```bash
+Unity -batchmode -nographics -projectPath . -runTests -testPlatform EditMode -testResults TestResults.xml
+```
