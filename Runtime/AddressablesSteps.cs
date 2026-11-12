@@ -8,7 +8,7 @@ namespace Commons.Addressables
     /// <see cref="AddressablesContent"/> operations shaped as <c>(IProgress&lt;float&gt;, CancellationToken) → UniTask</c>
     /// steps, ready for <c>AsyncPipeline.StepFor</c>:
     /// <code>
-    /// AsyncPipeline.Start("Boot")
+    /// AsyncPipeline.Create("Boot")
     ///     .Then("Catalogs", AsyncPipeline.StepFor(AddressablesSteps.UpdateCatalogs()))
     ///     .Then("Content", AsyncPipeline.StepFor(AddressablesSteps.Download(AddressableKeys.Labels.Core)));
     /// </code>

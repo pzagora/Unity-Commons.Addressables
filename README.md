@@ -46,7 +46,7 @@ using Commons.AsyncPipeline;
 using Commons.Addressables;
 
 await AsyncPipeline
-    .Start("Boot")
+    .Create("Boot")
     .Then("Addressables", AsyncPipeline.StepFor(AddressablesSteps.Initialize()))
     .Then("Catalogs",     AsyncPipeline.StepFor(AddressablesSteps.UpdateCatalogs()))
     .Then("Download",     AsyncPipeline.StepFor(AddressablesSteps.Download(AddressableKeys.Labels.Preload)), weight: 3f)
