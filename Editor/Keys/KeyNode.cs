@@ -46,10 +46,10 @@ namespace Commons.Addressables.Editor
         public void AddConstant(string name, string value)
             => _constants[name] = value;
 
-        public void Write(StringBuilder builder, int depth)
-            => Write(builder, depth, Sanitize(Name));
+        public void Write(StringBuilder builder, int depth, bool forcePascalCaseClassNames = false)
+            => Write(builder, depth, ClassIdentifier(Name, forcePascalCaseClassNames), forcePascalCaseClassNames);
 
-        private void Write(StringBuilder builder, int depth, string identifier)
+        private void Write(StringBuilder builder, int depth, string identifier, bool forcePascalCaseClassNames)
         {
             var indent = Indent(depth);
             builder.Append(indent).Append("public static class ").AppendLine(identifier);
@@ -71,7 +71,12 @@ namespace Commons.Addressables.Editor
                     builder.AppendLine();
 
                 first = false;
-                child.Write(builder, depth + 1, Unique(Sanitize(child.Name), used));
+                child.Write(
+                    builder,
+                    depth + 1,
+                    Unique(ClassIdentifier(child.Name, forcePascalCaseClassNames), used),
+                    forcePascalCaseClassNames
+                );
             }
 
             builder.Append(indent).AppendLine("}");
@@ -84,6 +89,29 @@ namespace Commons.Addressables.Editor
                 candidate = string.Format(UNIQUE_SUFFIX_FORMAT, identifier, suffix);
 
             return candidate;
+        }
+
+        private static string ClassIdentifier(string name, bool forcePascalCase)
+            => Sanitize(forcePascalCase ? ToPascalCase(name) : name);
+
+        private static string ToPascalCase(string name)
+        {
+            var builder = new StringBuilder(name.Length);
+            var capitalize = true;
+
+            foreach (var character in name)
+            {
+                if (!char.IsLetterOrDigit(character))
+                {
+                    capitalize = true;
+                    continue;
+                }
+
+                builder.Append(capitalize ? char.ToUpperInvariant(character) : character);
+                capitalize = false;
+            }
+
+            return builder.ToString();
         }
 
         private static string Sanitize(string name)

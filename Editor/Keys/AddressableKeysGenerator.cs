@@ -98,7 +98,7 @@ namespace Commons.Addressables.Editor
             if (hasNamespace)
                 builder.Append("namespace ").AppendLine(config.KeysNamespace).AppendLine("{");
 
-            root.Write(builder, hasNamespace ? 1 : 0);
+            root.Write(builder, hasNamespace ? 1 : 0, config.ForcePascalCaseClassNames);
 
             if (hasNamespace)
                 builder.AppendLine("}");

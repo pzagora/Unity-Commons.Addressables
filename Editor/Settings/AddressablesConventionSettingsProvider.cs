@@ -41,6 +41,10 @@ namespace Commons.Addressables.Editor
         private const string KEYS_PATH_PROPERTY = "keysPath";
         private const string KEYS_NAMESPACE_PROPERTY = "keysNamespace";
         private const string KEYS_CLASS_PROPERTY = "keysClass";
+        private const string FORCE_PASCAL_CASE_PROPERTY = "forcePascalCaseClassNames";
+        private const string FORCE_PASCAL_CASE_LABEL = "Force PascalCase Class Names";
+        private const string FORCE_PASCAL_CASE_TOOLTIP =
+            "Use PascalCase for generated root, group, and path classes. Constant names and address values stay unchanged.";
         private const string VALIDATE_ON_BUILD_PROPERTY = "validateOnBuild";
         private const string CHECK_DUPLICATES_PROPERTY = "checkDuplicateDependencies";
         private const string FAIL_BUILD_PROPERTY = "failBuildOnErrors";
@@ -124,6 +128,17 @@ namespace Commons.Addressables.Editor
             EditorGUILayout.PropertyField(serialized.FindProperty(KEYS_PATH_PROPERTY));
             EditorGUILayout.PropertyField(serialized.FindProperty(KEYS_NAMESPACE_PROPERTY));
             EditorGUILayout.PropertyField(serialized.FindProperty(KEYS_CLASS_PROPERTY));
+            EditorGUILayout.PropertyField(
+                serialized.FindProperty(FORCE_PASCAL_CASE_PROPERTY),
+                new GUIContent(FORCE_PASCAL_CASE_LABEL, FORCE_PASCAL_CASE_TOOLTIP)
+            );
+
+            if (serialized.ApplyModifiedPropertiesWithoutUndo())
+            {
+                settings.SaveSettings();
+                AddressableKeysGenerator.Schedule();
+            }
+
             if (GUILayout.Button(GENERATE_BUTTON))
                 CommonsLog.Event(LOG_SOURCE, AddressableKeysGenerator.Generate() ? GENERATED_MESSAGE : UNCHANGED_MESSAGE);
 

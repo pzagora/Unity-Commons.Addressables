@@ -22,6 +22,7 @@ namespace Commons.Addressables.Editor
         [SerializeField] private string keysPath = string.Empty;
         [SerializeField] private string keysNamespace = string.Empty;
         [SerializeField] private string keysClass = DEFAULT_KEYS_CLASS;
+        [SerializeField] private bool forcePascalCaseClassNames;
         [SerializeField] private bool validateOnBuild = true;
         [SerializeField] private bool checkDuplicateDependencies = false;
         [SerializeField] private bool failBuildOnErrors = true;
@@ -52,6 +53,7 @@ namespace Commons.Addressables.Editor
         }
 
         public string KeysNamespace => keysNamespace?.Trim() ?? string.Empty;
+        public bool ForcePascalCaseClassNames => forcePascalCaseClassNames;
         public bool CanGenerateKeys => generateKeys && !string.IsNullOrEmpty(KeysPath);
 
         public string ConventionFolder => string.IsNullOrWhiteSpace(conventionFolder)
